@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+.sign_up_form label {
+    font-family: "Inter", sans-serif;
+    pointer-events: none;
+}
+.sign_up_form input{
+    color: #d3d3d3;
+    padding-left: 10px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    outline: none;
+    background: #ffffff17;
+    border: 1px solid #747474;
+}
+.sign_up_form select{
+    font-weight: 600;
+    background: #ffffff17;
+    border: 1px solid #747474;
+}
+#submit_signup{
+    background: linear-gradient(to right, #216bb9 0%, #216bb9 12%, #216bb9 23%, #42236b 78%, #321a69 88%, #251368 100%);
+}
+/* .sign_up_form input:focus~label,
+.sign_up_form input~label.active {
+    top: 0px;
+    left: 0;
+    transition: 0.3s;
+    transform: translateY(-100%);
+} */
