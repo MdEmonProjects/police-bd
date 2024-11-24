@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+.font-inter{
+    font-family: "Inter", sans-serif;
+}
 .sign_up_form label {
     font-family: "Inter", sans-serif;
     pointer-events: none;
@@ -17,8 +20,11 @@
     background: #ffffff17;
     border: 1px solid #747474;
 }
-#submit_signup{
+.signup_btn{
     background: linear-gradient(to right, #216bb9 0%, #216bb9 12%, #216bb9 23%, #42236b 78%, #321a69 88%, #251368 100%);
+}
+.login_btn {
+    background: linear-gradient(to right, #cb6e7a 0%, #be6779 12%, #ae5e77 23%, #42236b 78%, #321a69 88%, #251368 100%);
 }
 /* .sign_up_form input:focus~label,
 .sign_up_form input~label.active {
@@ -27,3 +33,24 @@
     transition: 0.3s;
     transform: translateY(-100%);
 } */
+
+.root-screen-full {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    /* overflow-x: hidden; */
+}
+.root-screen-full::before{
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+    z-index: -1;
+    opacity: 0;
+    top: 0;
+    filter: alpha(opacity=0);
+    transition: opacity 0.4s;
+    -webkit-transition: opacity 0.4s;
+    
+}
