@@ -33,10 +33,13 @@ function App() {
 
   return (
     <section
-      className=" py-[100px] px-[10px] lg:p-[100px] m-0 bg-cover	bg-no-repeat bg-center flex items-center justify-center text-white"
+      className=" py-[100px] px-[10px] lg:px-[100px] lg:pt-[20px] lg:pb-[100px] m-0 bg-cover	bg-no-repeat bg-center flex items-center justify-center flex-col text-white"
       style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}
     >
-      <div className="registration_area p-[20px] rounded-[12px] max-w-[95%] bg-[#050262]">
+      <div className="flex items-center justify-center mt-[50px] mb-[80px]">
+        <img src="PCMS_app_logo.png" alt="logo" />
+      </div>
+      <div className="registration_area p-[20px] rounded-[12px] w-[1200px] max-w-[100%] bg-[#050262]">
         <h1 className="text-center text-[26px] font-medium mb-5 text-[#f9f9f9]">
           Registration Form
         </h1>
@@ -44,7 +47,7 @@ function App() {
           <div className="rows flex flex-wrap gap-4">
 
             <div className="row w-[100%] lg:w-[49%]">
-              <div className="mt-[26px] relative w-full">
+              <div className="mt-[36px] relative w-full">
                 <label
                   htmlFor="designation"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -65,7 +68,7 @@ function App() {
                 )}
               </div>
               {/* BP No */}
-              <div className="mt-[26px] relative w-full">
+              <div className="mt-[36px] relative w-full">
                 <input
                   id="bp_no"
                   className={`peer rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1] ${errors.bp_no ? "border-red-500" : ""
@@ -85,7 +88,7 @@ function App() {
               </div>
 
               {/* Mobile No */}
-              <div className="mt-[26px] relative w-full">
+              <div className="mt-[36px] relative w-full">
                 <div className="relative flex">
                   <button id="dropdown-phone-button-3" data-dropdown-toggle="dropdown-phone-3" className="z-10 inline-flex shrink-0 items-center rounded-s-lg border border-[#6967a1] bg-[#6967a1] px-4 py-2.5 text-center text-sm font-medium text-[#d3d3d3] hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100" type="button">+880<svg className="-me-0.5 ms-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7"></path></svg></button>
                   <input
@@ -109,7 +112,7 @@ function App() {
                 )}
               </div>
 
-              <div className="mt-[26px] relative w-full">
+              <div className="mt-[36px] relative w-full">
                 <label
                   htmlFor="designation"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -131,7 +134,7 @@ function App() {
               </div>
 
               {/* Name */}
-              <div className="mt-[26px] relative w-full">
+              <div className="mt-[36px] relative w-full">
                 <input
                   id="name"
                   className={`peer rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1] ${errors.name ? "border-red-500" : ""
@@ -151,7 +154,7 @@ function App() {
 
               {/* Address */}
               <div className='w-full'>
-                <div className="mt-[26px] relative w-full">
+                <div className="mt-[36px] relative w-full">
                   <label
                     htmlFor="district"
                     className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -172,7 +175,7 @@ function App() {
                   )}
                 </div>
 
-                <div className="mt-[26px] relative w-full">
+                <div className="mt-[36px] relative w-full">
                   <label
                     htmlFor="thana"
                     className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -191,7 +194,7 @@ function App() {
                   {errors.thana && <p className="text-red-500 mt-1">{errors.thana.message}</p>}
                 </div>
 
-                <div className="mt-[26px] relative w-full">
+                <div className="mt-[36px] relative w-full">
 
                   <input
                     id="address_line"
@@ -218,7 +221,7 @@ function App() {
 
             </div>
             <div className="row w-[100%] lg:w-[49%]">
-              <div className="mt-[26px]  relative w-full">
+              <div className="mt-[36px]  relative w-full">
                 <input
                   id="email"
                   className={`peer rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:border-[transparent] focus:ring-2 focus:ring-[#6967a1] ${errors.email ? "border-red-500" : ""
@@ -236,7 +239,7 @@ function App() {
                   <span className="text-red-500 text-sm">{errors.email.message}</span>
                 )}
               </div>
-              <div className="mt-[26px]  relative w-full">
+              <div className="mt-[36px]  relative w-full">
                 <label
                   htmlFor="gender"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -256,7 +259,7 @@ function App() {
               </div>
 
 
-              <div className="mt-[26px]  relative w-full">
+              <div className="mt-[36px]  relative w-full">
                 <label
                   htmlFor="gender"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -276,7 +279,7 @@ function App() {
               </div>
 
 
-              <div className="mt-[26px]  relative w-full">
+              <div className="mt-[36px]  relative w-full">
                 <label
                   htmlFor="gender"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -295,7 +298,7 @@ function App() {
                 {errors.thana && <p className="text-red-500 mt-1">{errors.thana.message}</p>}
               </div>
 
-              <div className="mt-[26px]  relative w-full">
+              <div className="mt-[36px]  relative w-full">
                 <label
                   htmlFor="gender"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -314,7 +317,7 @@ function App() {
                 {errors.thana && <p className="text-red-500 mt-1">{errors.thana.message}</p>}
               </div>
 
-              <div className="mt-[26px]  relative w-full">
+              <div className="mt-[36px]  relative w-full">
                 <label
                   htmlFor="gender"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -339,7 +342,7 @@ function App() {
             {/* Submit Button */}
 
             {/* File Upload */}
-            <div className="mt-[26px] w-full  relative flex items-center gap-5">
+            <div className="mt-[36px] w-full  relative flex items-center gap-5">
               <div className='lg:w-[50%]'>
                 <label
                   htmlFor="profile"
