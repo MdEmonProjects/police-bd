@@ -36,6 +36,8 @@ function Home() {
                         Login
                     </a>
                     <p className="text-white">Total Member: {memberCount}</p>
+                    <a href="/goal" className="font-inter text-[26px] py-[10px] px-[40px] rounded-lg bg-[#5499dc] inline-block mt-[40px]">উদ্দেশ্য</a>
+                   
                 </main>
 
                 {/* Footer */}
