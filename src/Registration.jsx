@@ -1,5 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { registerNewUser } from './utils/api';
+import { useNavigate, useOutletContext } from "react-router-dom";
+
 
 function Registration() {
   const {
@@ -8,22 +12,58 @@ function Registration() {
     watch,
     formState: { errors },
   } = useForm();
+  const context = useOutletContext();
+  const [fileInput, setFileInput] = useState(null);
+  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: registerNewUser,
+    onSuccess: (data) => {
+      console.log('Registration successful:', data.refreshToken);
+      document.cookie = `refreshToken=${JSON.stringify(data.refreshToken)}; path=/; max-age=${60 * 60 * 24}`;
+      context.setUser(data)
+      navigate("/profile");
+    },
+    onError: (error) => {
+      console.error('Registration failed:', error.response?.data || error.message);
+    },
+  });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    const formData = new FormData();
+
+    // Append non-file data to FormData
+    for (const key in data) {
+      if(key != "profile_image"){
+        formData.append(key, data[key]);
+      }
+      
+    }
+
+    // Append the file to FormData
+    if (fileInput) {
+      formData.append('profile_image', fileInput); // Ensure backend expects 'file'
+    }
+    mutation.mutate(formData);
+  };
 
   // Watch inputs for active behavior
   const bpNoValue = watch("bp_no", "");
-  const mobileNoValue = watch("mobile_no", "");
+  // const mobileNoValue = watch("mobile_no", "");
   const nameValue = watch("name", "");
   const emailValue = watch("email", "");
-  const addressLine = watch("addressLine", "");
+  const address_line = watch("address_line", "");
+
+
   const [imagePreview, setImagePreview] = useState(null);
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       // Create a URL for the uploaded image
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
+      setFileInput(file)
     }
   };
 
@@ -43,7 +83,7 @@ function Registration() {
           <div className="rows flex flex-wrap gap-4">
 
             <div className="row w-[100%] lg:w-[49%]">
-              <div className="mt-[36px] relative w-full">
+              {/* <div className="mt-[36px] relative w-full">
                 <label
                   htmlFor="designation"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
@@ -62,7 +102,7 @@ function Registration() {
                 {errors.designation && (
                   <p className="text-red-500 mt-1">{errors.designation.message}</p>
                 )}
-              </div>
+              </div> */}
               {/* BP No */}
               <div className="mt-[36px] relative w-full">
                 <input
@@ -88,22 +128,22 @@ function Registration() {
                 <div className="relative flex">
                   <button id="dropdown-phone-button-3" data-dropdown-toggle="dropdown-phone-3" className="z-10 inline-flex shrink-0 items-center rounded-s-lg border border-[#6967a1] bg-[#6967a1] px-4 py-2.5 text-center text-sm font-medium text-[#d3d3d3] hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100" type="button">+880<svg className="-me-0.5 ms-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7"></path></svg></button>
                   <input
-                    id="mobile_no"
+                    id="phone_number"
                     className={`peer  rounded-r-[10px] w-full h-[44px] border border-gray-300 border-s-0 px-3 focus:outline-none focus:ring-r-2 focus:ring-[#6967a1] ${errors.mobile_no ? "border-red-500" : ""
                       }`}
-                    {...register("mobile_no", { required: "Mobile No. is required" })}
+                    {...register("phone_number", { required: "Mobile No. is required" })}
                   />
                 </div>
 
                 <label
-                  htmlFor="mobile_no"
+                  htmlFor="phone_number"
                   className={`absolute top-[0px] left-[5px] pointer-events-none transition-all duration-300 text-[#6967a1] translate-y-[-103%]`}
                 >
                   Mobile No.
                 </label>
-                {errors.mobile_no && (
+                {errors.phone_number && (
                   <span className="text-red-500 text-sm">
-                    {errors.mobile_no.message}
+                    {errors.phone_number.message}
                   </span>
                 )}
               </div>
@@ -194,19 +234,19 @@ function Registration() {
 
                   <input
                     id="address_line"
-                    className={`peer rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:border-[transparent] focus:ring-2 focus:ring-[#6967a1] ${errors.addressLine ? "border-red-500" : ""
+                    className={`peer rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:border-[transparent] focus:ring-2 focus:ring-[#6967a1] ${errors.address_line ? "border-red-500" : ""
                       }`}
-                    {...register("addressLine", { required: "Address is required" })}
+                    {...register("address_line", { required: "Address is required" })}
                   />
                   <label
                     htmlFor="address_line"
-                    className={`absolute top-1/2 left-[10px] -translate-y-1/2 text-[#777777] pointer-events-none transition-all duration-300 peer-focus:top-0 peer-focus:left-[5px] peer-focus:text-[#6967a1] peer-focus:translate-y-[-103%] ${addressLine ? "top-0 left-0 translate-y-[-103%] text-[#6967a1]" : ""
+                    className={`absolute top-1/2 left-[10px] -translate-y-1/2 text-[#777777] pointer-events-none transition-all duration-300 peer-focus:top-0 peer-focus:left-[5px] peer-focus:text-[#6967a1] peer-focus:translate-y-[-103%] ${address_line ? "top-0 left-0 translate-y-[-103%] text-[#6967a1]" : ""
                       }`}
                   >
                     Address Line
                   </label>
-                  {errors.addressLine && (
-                    <p className="text-red-500 mt-1">{errors.addressLine.message}</p>
+                  {errors.address_line && (
+                    <p className="text-red-500 mt-1">{errors.address_line.message}</p>
                   )}
                 </div>
 
@@ -257,79 +297,80 @@ function Registration() {
 
               <div className="mt-[36px]  relative w-full">
                 <label
-                  htmlFor="gender"
+                  htmlFor="police_unit"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
                 >
                   Select Present Police Unit
                 </label>
                 <select
                   className="rounded-[10px] w-full h-[44px] border border-gray-300 text-[#777777] font-normal px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]"
-                  {...register("gender", { required: "Gender is required" })}
+                  id='police_unit'
+                  {...register("police_unit", { required: "Gender is required" })}
                 >
                   <option value="">Select</option>
                   <option value="male">male</option>
                   <option value="thana2">Thana 2</option>
                   <option value="thana3">Thana 3</option>
                 </select>
-                {errors.thana && <p className="text-red-500 mt-1">{errors.thana.message}</p>}
+                {errors.police_unit && <p className="text-red-500 mt-1">{errors.police_unit.message}</p>}
               </div>
 
 
               <div className="mt-[36px]  relative w-full">
                 <label
-                  htmlFor="gender"
+                  htmlFor="police_first_sub_unit"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
                 >
                   Select Present First Sub Unit
                 </label>
                 <select
                   className="rounded-[10px] w-full h-[44px] border border-gray-300 text-[#777777] font-normal px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]"
-                  {...register("gender", { required: "Gender is required" })}
+                  {...register("police_first_sub_unit", { required: "Gender is required" })}
                 >
                   <option value="">Select</option>
                   <option value="male">male</option>
                   <option value="thana2">Thana 2</option>
                   <option value="thana3">Thana 3</option>
                 </select>
-                {errors.thana && <p className="text-red-500 mt-1">{errors.thana.message}</p>}
+                {errors.police_first_sub_unit && <p className="text-red-500 mt-1">{errors.police_first_sub_unit.message}</p>}
               </div>
 
               <div className="mt-[36px]  relative w-full">
                 <label
-                  htmlFor="gender"
+                  htmlFor="police_second_sub_unit"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
                 >
                   Select Present Second Sub Unit
                 </label>
                 <select
                   className="rounded-[10px] w-full h-[44px] border border-gray-300 text-[#777777] font-normal px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]"
-                  {...register("gender", { required: "Gender is required" })}
+                  {...register("police_second_sub_unit", { required: "Gender is required" })}
                 >
                   <option value="">Select</option>
                   <option value="male">male</option>
                   <option value="thana2">Thana 2</option>
                   <option value="thana3">Thana 3</option>
                 </select>
-                {errors.thana && <p className="text-red-500 mt-1">{errors.thana.message}</p>}
+                {errors.police_second_sub_unit && <p className="text-red-500 mt-1">{errors.police_second_sub_unit.message}</p>}
               </div>
 
               <div className="mt-[36px]  relative w-full">
                 <label
-                  htmlFor="gender"
+                  htmlFor="police_third_sub_unit"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
                 >
                   Select Present Third Sub Unit
                 </label>
                 <select
                   className="rounded-[10px] w-full h-[44px] border border-gray-300 text-[#777777] font-normal px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]"
-                  {...register("gender", { required: "Gender is required" })}
+                  {...register("police_third_sub_unit", { required: "Gender is required" })}
                 >
                   <option value="">Select</option>
                   <option value="male">male</option>
                   <option value="thana2">Thana 2</option>
                   <option value="thana3">Thana 3</option>
                 </select>
-                {errors.thana && <p className="text-red-500 mt-1">{errors.thana.message}</p>}
+                {errors.police_third_sub_unit && <p className="text-red-500 mt-1">{errors.police_third_sub_unit.message}</p>}
               </div>
             </div>
 
@@ -341,7 +382,7 @@ function Registration() {
             <div className="mt-[36px] w-full  relative flex items-center gap-5">
               <div className='lg:w-[50%]'>
                 <label
-                  htmlFor="profile"
+                  htmlFor="profile_image"
                   className="text-[#6967a1] absolute top-0 translate-y-[-103%]"
                 >
                   Profile Image
@@ -349,7 +390,7 @@ function Registration() {
                 <input
                   type="file"
                   className="block w-full text-gray-900  border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                  {...register("profile", {
+                  {...register("profile_image", {
                     required: "Profile image is required",
                   })}
                   onChange={(e) => {
@@ -357,8 +398,8 @@ function Registration() {
                   }}
                 />
               </div>
-              {errors.profile && (
-                <p className="text-red-500 mt-1">{errors.profile.message}</p>
+              {errors.profile_image && (
+                <p className="text-red-500 mt-1">{errors.profile_image.message}</p>
               )}
               {imagePreview && (
                 <img

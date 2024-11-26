@@ -12,28 +12,33 @@ import Layout from './component/Layout';
 import ProtectedRoute from './component/ProtectedRoute';
 import SingleUserDetails from './SingleUserDetails';
 import Goal from './Goal';
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from './context/AuthContext';
+const queryClient = new QueryClient();
 function App() {
-
-  const [user, setUser] = useState({name: "MD Emon", Role: "Admin"})
+  const [user, setUser] = useState(null)
   return (
     <div>
-      <BrowserRouter>
-        <Routes>
-          {/* Parent route */}
-          <Route path="/" element={<Layout user={user} setUser={setUser} />}>
-            <Route index element={<Home />} /> {/* Default route */}
-            <Route path="registration" element={<Registration />} />
-            <Route path="login" element={<Login />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="profile" element={<Profile />} />
-            </Route>
-            <Route path="list_of_users" element={<ListOfUsers />} />
-            <Route path="user" element={<SingleUserDetails />} />
-            <Route path="goal" element={<Goal />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Parent route */}
+              <Route path="/" element={<Layout user={user} setUser={setUser} />}>
+                <Route index element={<Home />} /> {/* Default route */}
+                <Route path="registration" element={<Registration />} />
+                <Route path="login" element={<Login />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="profile" element={<Profile />} />
+                </Route>
+                <Route path="list_of_users" element={<ListOfUsers />} />
+                <Route path="user" element={<SingleUserDetails />} />
+                <Route path="goal" element={<Goal />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </QueryClientProvider>
     </div>
   );
 }

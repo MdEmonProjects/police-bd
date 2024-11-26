@@ -1,9 +1,52 @@
 import UserDetailsCard from "./component/UserDetailsCard";
 
+import { useEffect, useState } from "react";
+import { useUser } from "./context/AuthContext";
+import Cookies from "universal-cookie";
+import { useQuery } from "@tanstack/react-query";
+import { getSingleUserData } from "./utils/api";
 
+// import {  useOutletContext } from "react-router-dom";
 
+const cookies = new Cookies();
 function Profile() {
+    // const context = useOutletContext()
+    const { user } = useUser()
+    const [userId, setUserId] = useState(null);
+    const token = cookies.get("TOKEN");
+    const decodeJWT = (token) => {
+        if (!token) return null;
+        try {
+            const payload = token.split('.')[1]; // Extract the payload part
+            return JSON.parse(atob(payload)); // Decode from Base64 and parse to JSON
+        } catch (error) {
+            console.error("Invalid token:", error);
+            return null;
+        }
+    };
+    useEffect(() => {
+        const payload = decodeJWT(token);
+        if (payload?.id) {
+            setUserId(payload.id);
+            console.log(payload);
 
+        }
+
+
+    }, [user, token])
+
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ["userProfile", userId], // Unique key for caching
+        queryFn: () => getSingleUserData(userId), // Fetch function
+        enabled: !!userId, // Only run query if `userId` is available
+    })
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error: {error.message}</div>;
+
+    if (data) {
+        console.log(data);
+
+    }
 
     return (
         <div className="root-screen-full">
@@ -22,8 +65,22 @@ function Profile() {
                         <a href="/list_of_users" className="font-inter py-[10px] px-[20px] rounded-lg bg-[#131b43] inline-block ">View All Member</a>
                         <a href="/registration" className="font-inter py-[10px] px-[20px] rounded-lg bg-[#5499dc] inline-block">Edit Your Details</a>
                     </div>
+                    {
+                        data ? (<UserDetailsCard name={data.name} 
+                            designation={data.designation} 
+                            address={`${data.address ? data.address + "," : ""} ${data.district}`} 
+                            bp_no={data.bp_no} 
+                            email={data.email} 
+                            gender={data.gender} 
+                            id={data.id} 
+                            phone_number={data.phone_number} 
+                            profile_image={`http://localhost:4000${data.profile_image}`} 
+                            police_unit={data.police_unit} 
+                            police_first_sub_unit={data.police_first_sub_unit} police_second_sub_unit={data.police_second_sub_unit} police_third_sub_unit={data.police_third_sub_unit}>
 
-                    <UserDetailsCard></UserDetailsCard>
+                            </UserDetailsCard>) : (<div>Loading...</div>)
+                    }
+                    {/*  */}
 
                 </div>
 

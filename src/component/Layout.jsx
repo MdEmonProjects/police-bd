@@ -3,7 +3,7 @@ import {Outlet } from 'react-router-dom';
 
 function Layout() {
 
-  const [user, setUser] = useState({name: "vp", data: "sfdasf"})
+  const [user, setUser] = useState(null)
   return (
     <div>
       <Outlet context={{ user, setUser }} /> {/* Outlet for child routes */}
