@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { getSingleUserData, registerNewUser, verifyToken } from './utils/api';
+import { getSingleUserData, registerNewUser, updateData, verifyToken } from './utils/api';
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
@@ -16,9 +16,11 @@ function Registration() {
   } = useForm();
   const context = useOutletContext();
   const [fileInput, setFileInput] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const editId = searchParams.get("edit"); // Extract the 'edit' parameter value
+  const [userOriginalId, setUserOriginalId ] = useState(null)
 
   const decodeJWT = (token) => {
     if (!token) return null;
@@ -40,11 +42,9 @@ function Registration() {
             await verifyToken(token); // Validate token
             const userData = decodeJWT(token)
            const detailsData = await getSingleUserData(userData.id)
-          //  console.log(detailsData);
-          //  useForm({
-          //   defaultValues: async () =>  await getSingleUserData(userData.id)
-          //  })
+           setUserOriginalId(userData.id)
            reset(detailsData)
+           setImagePreview(`http://localhost:4000${detailsData.profile_image}`)
 
 
           } catch (error) {
@@ -60,16 +60,17 @@ function Registration() {
     }
 
 
-  }, [editId, navigate])
+  }, [editId, navigate, reset])
 
   // Fetch data based on the 'edit' parameter
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["userProfile", editId],
-    queryFn: () => getSingleUserData(editId),
-    enabled: !!editId,
+    queryKey: ["userProfile", userOriginalId],
+    queryFn: () => getSingleUserData(userOriginalId),
+    enabled: !!userOriginalId,
   })
+  //  
   const mutation = useMutation({
-    mutationFn: registerNewUser,
+    mutationFn: ({ id, formData }) => userOriginalId ? updateData(id, formData) : registerNewUser(formData),
     onSuccess: (data) => {
       console.log('Registration successful:', data.refreshToken);
       document.cookie = `refreshToken=${JSON.stringify(data.refreshToken)}; path=/; max-age=${60 * 60 * 24}`;
@@ -97,7 +98,9 @@ function Registration() {
     if (fileInput) {
       formData.append('profile_image', fileInput); // Ensure backend expects 'file'
     }
-    mutation.mutate(formData);
+    console.log(userOriginalId);
+    
+    mutation.mutate({id: userOriginalId ,formData});
   };
 
   // Watch inputs for active behavior
@@ -109,7 +112,7 @@ function Registration() {
   const policeThirdSubUnit = watch("police_third_sub_unit", "");
 
 
-  const [imagePreview, setImagePreview] = useState(null);
+  
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
