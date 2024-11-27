@@ -108,7 +108,7 @@ function Registration() {
   // const mobileNoValue = watch("mobile_no", "");
   const nameValue = watch("name", "");
   const emailValue = watch("email", "");
-  const address_line = watch("address_line", "");
+  const address_line = watch("address", "");
   const policeThirdSubUnit = watch("police_third_sub_unit", "");
 
 
@@ -364,21 +364,21 @@ function Registration() {
 
                   <div className="relative">
                     <input
-                      id="address_line"
-                      className={`peer rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:border-[transparent] focus:ring-2 focus:ring-[#6967a1] ${errors.address_line ? "border-red-500" : ""
+                      id="address"
+                      className={`peer rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:border-[transparent] focus:ring-2 focus:ring-[#6967a1] ${errors.address ? "border-red-500" : ""
                         }`}
-                      {...register("address_line", { required: "Address is required" })}
+                      {...register("address")}
                     />
                     <label
-                      htmlFor="address_line"
+                      htmlFor="address"
                       className={`absolute top-1/2 left-[10px] -translate-y-1/2 text-[#777777] pointer-events-none transition-all duration-300 peer-focus:top-0 peer-focus:left-[5px] peer-focus:text-[#6967a1] peer-focus:translate-y-[-103%] ${address_line ? "top-0 left-0 translate-y-[-103%] text-[#6967a1]" : ""
                         }`}
                     >
                       Address Line
                     </label>
                   </div>
-                  {errors.address_line && (
-                    <p className="text-red-500 mt-1">{errors.address_line.message}</p>
+                  {errors.address && (
+                    <p className="text-red-500 mt-1">{errors.address.message}</p>
                   )}
                 </div>
 
@@ -616,7 +616,9 @@ function Registration() {
                   type="file"
                   className="block w-full text-gray-900  border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                   {...register("profile_image", {
-                    required: "Profile image is required",
+                    validate: {
+                      required: (value) => !!imagePreview || "Profile image is required", // Check fileInput
+                    },
                   })}
                   onChange={(e) => {
                     handleFileChange(e); // Update the preview

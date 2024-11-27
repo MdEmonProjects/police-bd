@@ -3,6 +3,17 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
+
+const getUsersData = async (id) =>{
+  const {data} = await axios.get(`http://localhost:4000/api/users`)
+  return data
+}
+
+const getSingleUserData = async (id) =>{
+  const {data} = await axios.get(`http://localhost:4000/api/users/${id}`)
+  return data
+}
+
 const loginUser = async (credentials) => {
   const { data } = await axios.post('http://localhost:4000/api/users/login', credentials);
   return data;
@@ -35,12 +46,9 @@ const registerNewUser = async (formData) => {
       'Content-Type': 'multipart/form-data', // Necessary for file uploads
     },
   });
+  cookies.remove("TOKEN")
   return data;
 };
-const getSingleUserData = async (id) =>{
-  const {data} = await axios.get(`http://localhost:4000/api/users/${id}`)
-  return data
-}
 
 const updateData = async (id, formData) =>{
   console.log(id);
@@ -54,4 +62,4 @@ const updateData = async (id, formData) =>{
   });
   return data;
 }
-export { loginUser, verifyToken, registerNewUser, getSingleUserData, updateData }
+export { loginUser, verifyToken, registerNewUser, getSingleUserData, updateData, getUsersData }

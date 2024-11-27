@@ -15,7 +15,7 @@ function UserDetailsCard({ name,
 
 
     return (
-        <div className="card-container w-[850px] max-w-full bg-[#231E39] text-[#B3B8CD] py-[60px] font-inter mx-auto mt-[50px] rounded-lg flex px-[50px] justify-center gap-[80px] items-center">
+        <div className="card-container w-[950px] max-w-full bg-[#231E39] text-[#B3B8CD] py-[60px] font-inter mx-auto mt-[50px] rounded-lg flex px-[50px] justify-center gap-[80px] items-center">
 
             <div className="capitalize">
                 <img src={profile_image} alt={`${name} ${id}`} className="h-[100px] w-[100px] rounded-full mx-auto mb-[10px] object-cover" />

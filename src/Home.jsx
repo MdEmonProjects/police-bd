@@ -1,13 +1,18 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+// import { useState } from "react";
+// import { Link } from "react-router-dom";
+import { getUsersData } from "./utils/api";
+import Loading from "./component/Loading";
 
 function Home() {
-    const [memberCount] = useState(12345); // Example member count
+    // const [memberCount] = useState(12345); // Example member count
 
-    const handleRegister = () => {
-        alert("Registration feature coming soon!");
-    };
-
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ["usersData"], // Unique key for caching
+        queryFn: () => getUsersData(),
+    })
+    // if (isLoading) return <Loading/>;
+    if (isError) return <div>Error: {error.message}</div>;
 
     return (
         <div className="root-screen-full">
@@ -35,7 +40,7 @@ function Home() {
                     >
                         Login
                     </a>
-                    <p className="text-white">Total Member: {memberCount}</p>
+                    <p className="text-white">Total Member: { isLoading ? <div>Loading...</div> : data.length}</p>
                     <a href="/goal" className="font-inter text-[26px] py-[10px] px-[40px] rounded-lg bg-[#5499dc] inline-block mt-[40px]">উদ্দেশ্য</a>
                    
                 </main>
@@ -44,7 +49,7 @@ function Home() {
 
             </div>
             <footer className="bg-gray-800 text-gray-400 py-4 text-center text-sm fixed bottom-0 w-full">
-                <small>© 2024 Your Website. All rights reserved. Privacy Policy.</small>
+                <small>© 2024. All rights reserved. Privacy Policy.</small>
             </footer>
         </div>
 

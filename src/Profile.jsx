@@ -43,10 +43,6 @@ function Profile() {
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error: {error.message}</div>;
 
-    if (data) {
-        console.log(data);
-
-    }
 
     return (
         <div className="root-screen-full">
@@ -63,7 +59,7 @@ function Profile() {
                     <h1 className="text-[36px] font-inter font-bold uppercase mb-[30px]">BD Police 2013 October Batch</h1>
                     <div className="flex gap-4 flex-wrap justify-center">
                         <a href="/list_of_users" className="font-inter py-[10px] px-[20px] rounded-lg bg-[#131b43] inline-block ">View All Member</a>
-                        <a href="/registration" className="font-inter py-[10px] px-[20px] rounded-lg bg-[#5499dc] inline-block">Edit Your Details</a>
+                        <a href={`/registration?edit=${userId}`} className="font-inter py-[10px] px-[20px] rounded-lg bg-[#5499dc] inline-block">Edit Your Details</a>
                     </div>
                     {
                         data ? (<UserDetailsCard name={data.name} 
