@@ -1,20 +1,73 @@
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { registerNewUser } from './utils/api';
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { getSingleUserData, registerNewUser, verifyToken } from './utils/api';
+import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
-
+const cookies = new Cookies();
 function Registration() {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
   const context = useOutletContext();
   const [fileInput, setFileInput] = useState(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get("edit"); // Extract the 'edit' parameter value
+
+  const decodeJWT = (token) => {
+    if (!token) return null;
+    try {
+      const payload = token.split('.')[1]; // Extract the payload part
+      return JSON.parse(atob(payload)); // Decode from Base64 and parse to JSON
+    } catch (error) {
+      console.error("Invalid token:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+
+    if (editId) {
+      const checkAuth = async () => {
+        const token = cookies.get("TOKEN");
+        if (token) {
+          try {
+            await verifyToken(token); // Validate token
+            const userData = decodeJWT(token)
+           const detailsData = await getSingleUserData(userData.id)
+          //  console.log(detailsData);
+          //  useForm({
+          //   defaultValues: async () =>  await getSingleUserData(userData.id)
+          //  })
+           reset(detailsData)
+
+
+          } catch (error) {
+            console.error("Token verification failed:", error);
+          }
+        } else {
+          // No token or user
+          navigate("/login");
+        }
+      };
+      checkAuth()
+
+    }
+
+
+  }, [editId, navigate])
+
+  // Fetch data based on the 'edit' parameter
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["userProfile", editId],
+    queryFn: () => getSingleUserData(editId),
+    enabled: !!editId,
+  })
   const mutation = useMutation({
     mutationFn: registerNewUser,
     onSuccess: (data) => {
@@ -68,6 +121,12 @@ function Registration() {
     }
   };
 
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+  if (data) {
+    console.log(data);
+
+  }
   return (
     <section
       className=" py-[100px] px-[10px] lg:px-[100px] lg:pt-[20px] lg:pb-[100px] m-0 bg-cover	bg-no-repeat bg-center flex items-center justify-center flex-col text-white"
