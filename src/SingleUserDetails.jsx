@@ -40,7 +40,9 @@ function SingleUserDetails() {
                             phone_number={data.phone_number} 
                             profile_image={`${API_URL}${data.profile_image}`} 
                             police_unit={data.police_unit} 
-                            police_first_sub_unit={data.police_first_sub_unit} police_second_sub_unit={data.police_second_sub_unit} police_third_sub_unit={data.police_third_sub_unit}>
+                            police_first_sub_unit={data.police_first_sub_unit} police_second_sub_unit={data.police_second_sub_unit} police_third_sub_unit={data.police_third_sub_unit}
+                            police_first_sub_unit_text={data.police_first_sub_unit_text}
+                            police_second_sub_unit_text={data.police_second_sub_unit_text}>
 
                             </UserDetailsCard>) : (<div>Loading...</div>)
                     }

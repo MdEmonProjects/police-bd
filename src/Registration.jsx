@@ -21,7 +21,7 @@ function Registration() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const editId = searchParams.get("edit"); // Extract the 'edit' parameter value
-  const [userOriginalId, setUserOriginalId ] = useState(null)
+  const [userOriginalId, setUserOriginalId] = useState(null)
 
   const decodeJWT = (token) => {
     if (!token) return null;
@@ -42,10 +42,10 @@ function Registration() {
           try {
             await verifyToken(token); // Validate token
             const userData = decodeJWT(token)
-           const detailsData = await getSingleUserData(userData.id)
-           setUserOriginalId(userData.id)
-           reset(detailsData)
-           setImagePreview(`${API_URL}${detailsData.profile_image}`)
+            const detailsData = await getSingleUserData(userData.id)
+            setUserOriginalId(userData.id)
+            reset(detailsData)
+            setImagePreview(`${API_URL}${detailsData.profile_image}`)
 
 
           } catch (error) {
@@ -53,7 +53,7 @@ function Registration() {
           }
         } else {
           // No token or user
-          navigate("/login");
+          // navigate("/login");
         }
       };
       checkAuth()
@@ -100,8 +100,8 @@ function Registration() {
       formData.append('profile_image', fileInput); // Ensure backend expects 'file'
     }
     console.log(userOriginalId);
-    
-    mutation.mutate({id: userOriginalId ,formData});
+
+    mutation.mutate({ id: userOriginalId, formData });
   };
 
   // Watch inputs for active behavior
@@ -111,9 +111,13 @@ function Registration() {
   const emailValue = watch("email", "");
   const address_line = watch("address", "");
   const policeThirdSubUnit = watch("police_third_sub_unit", "");
+  const policeFirstSubUnitText = watch("police_first_sub_unit_text")
+  const policeFirstSubUnit = watch("police_first_sub_unit");
+  const policeSecondSubUnit = watch("police_second_sub_unit");
+  const policeSecondSubUnitText = watch("police_second_sub_unit_text");
 
 
-  
+
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -479,6 +483,7 @@ function Registration() {
                   {...register("police_first_sub_unit", { required: "First Sub Unit is required" })}
                 >
                   <option value="">Select</option>
+                  <option value="others">অন্যান্য</option>
                   <option data-dvition-id="6" value="ঢাকা রেঞ্জ">ঢাকা রেঞ্জ</option>
                   <option data-dvition-id="3" value="খুলনা রেঞ্জ">খুলনা রেঞ্জ</option>
                   <option data-dvition-id="1" value="চট্টগ্রাম রেঞ্জ">চট্টগ্রাম রেঞ্জ</option>
@@ -499,6 +504,33 @@ function Registration() {
                 {errors.police_first_sub_unit && <p className="text-red-500 mt-1">{errors.police_first_sub_unit.message}</p>}
               </div>
 
+              {policeFirstSubUnit === "others" && (
+                <div className="mt-[36px] relative w-full">
+                  <div className="relative">
+                    <input
+                      id="police_first_sub_unit_text"
+                      className={`rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1] ${errors.police_first_sub_unit_text ? "border-red-500" : ""
+                        }`}
+                      {...register("police_first_sub_unit_text", {
+                        required: "This field is required when 'others' is selected",
+                      })}
+                    />
+                    <label
+                      htmlFor="police_first_sub_unit_text"
+                      className={`absolute top-1/2 left-[10px] -translate-y-1/2 text-[#777777] pointer-events-none transition-all duration-300 peer-focus:top-0 peer-focus:left-[5px] peer-focus:text-[#6967a1] peer-focus:translate-y-[-103%] ${policeFirstSubUnitText ? "top-0 left-0 translate-y-[-103%] text-[#6967a1]" : ""
+                        }`}
+                    >
+                      Type Your Present First Sub Unit
+                    </label>
+                  </div>
+                  {errors.police_first_sub_unit_text && (
+                    <span className="text-red-500 text-sm">
+                      {errors.police_first_sub_unit_text.message}
+                    </span>
+                  )}
+                </div>
+              )}
+
               <div className="mt-[36px]  relative w-full">
                 <label
                   htmlFor="police_second_sub_unit"
@@ -511,6 +543,7 @@ function Registration() {
                   {...register("police_second_sub_unit", { required: "Present Second Sub Unit is required" })}
                 >
                   <option value="">Select</option>
+                  <option value="others">অন্যান্য</option>
                   <option value="কুমিল্লা">কুমিল্লা</option>
                   <option value="ফেনী">ফেনী</option>
                   <option value="ব্রাহ্মণবাড়িয়া">ব্রাহ্মণবাড়িয়া</option>
@@ -578,6 +611,33 @@ function Registration() {
                 </select>
                 {errors.police_second_sub_unit && <p className="text-red-500 mt-1">{errors.police_second_sub_unit.message}</p>}
               </div>
+
+              {policeSecondSubUnit === "others" && (
+                <div className="mt-[36px] relative w-full">
+                  <div className="relative">
+                    <input
+                      id="police_second_sub_unit_text"
+                      className={`rounded-[10px] w-full h-[44px] border border-gray-300 px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1] ${errors.police_second_sub_unit_text ? "border-red-500" : ""
+                        }`}
+                      {...register("police_second_sub_unit_text", {
+                        required: "This field is required when 'others' is selected",
+                      })}
+                    />
+                    <label
+                      htmlFor="police_second_sub_unit_text"
+                      className={`absolute top-1/2 left-[10px] -translate-y-1/2 text-[#777777] pointer-events-none transition-all duration-300 peer-focus:top-0 peer-focus:left-[5px] peer-focus:text-[#6967a1] peer-focus:translate-y-[-103%] ${policeSecondSubUnitText ? "top-0 left-0 translate-y-[-103%] text-[#6967a1]" : ""
+                        }`}
+                    >
+                      Type Your Second Sub Unit
+                    </label>
+                  </div>
+                  {errors.police_second_sub_unit_text && (
+                    <span className="text-red-500 text-sm">
+                      {errors.police_second_sub_unit_text.message}
+                    </span>
+                  )}
+                </div>
+              )}
 
               <div className="mt-[36px]  relative w-full">
                 <div className="relative">

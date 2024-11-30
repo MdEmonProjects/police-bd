@@ -11,11 +11,14 @@ function UserDetailsCard({ name,
     police_unit,
     police_first_sub_unit,
     police_second_sub_unit,
-    police_third_sub_unit }) {
+    police_third_sub_unit,
+    police_first_sub_unit_text,
+    police_second_sub_unit_text
+}) {
 
 
     return (
-        <div className="card-container w-[950px] max-w-full bg-[#231E39] text-[#B3B8CD] py-[60px] font-inter mx-auto mt-[50px] rounded-lg flex px-[50px] justify-center gap-[80px] items-center">
+        <div className="card-container w-[950px] max-w-full bg-[#231E39] text-[#B3B8CD] py-[60px] font-inter mx-auto mt-[50px] rounded-lg flex px-[50px] justify-center gap-[20px] lg:gap-[80px] items-center flex-wrap">
 
             <div className="capitalize">
                 <img src={profile_image} alt={`${name} ${id}`} className="h-[100px] w-[100px] rounded-full mx-auto mb-[10px] object-cover" />
@@ -52,11 +55,11 @@ function UserDetailsCard({ name,
                         </tr>
                         <tr >
                             <td className="border py-[6px] px-[6px] text-[16px]">Police First Sub Unit:</td>
-                            <td className="border py-[6px] px-[6px] text-[16px]">{police_first_sub_unit}</td>
+                            <td className="border py-[6px] px-[6px] text-[16px]">{police_first_sub_unit === 'others' ? police_first_sub_unit_text : police_first_sub_unit}</td>
                         </tr>
                         <tr >
                             <td className="border py-[6px] px-[6px] text-[16px]">Police Second Sub Unit:</td>
-                            <td className="border py-[6px] px-[6px] text-[16px]">{police_second_sub_unit}</td>
+                            <td className="border py-[6px] px-[6px] text-[16px]">{police_second_sub_unit === 'others' ? police_second_sub_unit_text :  police_second_sub_unit}</td>
                         </tr>
                         <tr >
                             <td className="border py-[6px] px-[6px] text-[16px]">Police Third Sub Unit:</td>
