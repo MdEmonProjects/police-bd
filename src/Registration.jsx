@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { getSingleUserData, registerNewUser, updateData, verifyToken } from './utils/api';
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import Cookies from 'universal-cookie';
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
 const cookies = new Cookies();
 function Registration() {
@@ -44,7 +45,7 @@ function Registration() {
            const detailsData = await getSingleUserData(userData.id)
            setUserOriginalId(userData.id)
            reset(detailsData)
-           setImagePreview(`http://localhost:4000${detailsData.profile_image}`)
+           setImagePreview(`${API_URL}${detailsData.profile_image}`)
 
 
           } catch (error) {

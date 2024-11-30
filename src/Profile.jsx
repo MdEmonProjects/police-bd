@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getSingleUserData } from "./utils/api";
 
 // import {  useOutletContext } from "react-router-dom";
-
+const API_URL = import.meta.env.VITE_SERVER_URL;
 const cookies = new Cookies();
 function Profile() {
     // const context = useOutletContext()
@@ -70,7 +70,7 @@ function Profile() {
                             gender={data.gender} 
                             id={data.id} 
                             phone_number={data.phone_number} 
-                            profile_image={`http://localhost:4000${data.profile_image}`} 
+                            profile_image={`${API_URL}${data.profile_image}`} 
                             police_unit={data.police_unit} 
                             police_first_sub_unit={data.police_first_sub_unit} police_second_sub_unit={data.police_second_sub_unit} police_third_sub_unit={data.police_third_sub_unit}>
 

@@ -1,8 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import UserDetailsCard from "./component/UserDetailsCard";
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleUserData } from "./utils/api";
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
 function SingleUserDetails() {
 
@@ -38,7 +38,7 @@ function SingleUserDetails() {
                             gender={data.gender} 
                             id={data.id} 
                             phone_number={data.phone_number} 
-                            profile_image={`http://localhost:4000${data.profile_image}`} 
+                            profile_image={`${API_URL}${data.profile_image}`} 
                             police_unit={data.police_unit} 
                             police_first_sub_unit={data.police_first_sub_unit} police_second_sub_unit={data.police_second_sub_unit} police_third_sub_unit={data.police_third_sub_unit}>
 

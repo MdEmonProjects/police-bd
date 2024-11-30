@@ -2,26 +2,26 @@ import axios from "axios";
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
-
-const getUsersData = async (id) =>{
-  const {data} = await axios.get(`http://localhost:4000/api/users`)
+const getUsersData = async () =>{
+  const {data} = await axios.get(`${API_URL}/api/users`)
   return data
 }
 
 const getSingleUserData = async (id) =>{
-  const {data} = await axios.get(`http://localhost:4000/api/users/${id}`)
+  const {data} = await axios.get(`${API_URL}/api/users/${id}`)
   return data
 }
 
 const loginUser = async (credentials) => {
-  const { data } = await axios.post('http://localhost:4000/api/users/login', credentials);
+  const { data } = await axios.post(`${API_URL}/api/users/login`, credentials);
   return data;
 };
 const verifyToken = async (token) => {
   const configuration = {
     method: "POST",
-    url: `http://localhost:4000/api/users/auth-endpoint`,
+    url: `${API_URL}/api/users/auth-endpoint`,
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -41,7 +41,7 @@ const verifyToken = async (token) => {
 };
 
 const registerNewUser = async (formData) => {
-  const { data } = await axios.post('http://localhost:4000/api/users/register', formData, {
+  const { data } = await axios.post(`${API_URL}/api/users/register`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data', // Necessary for file uploads
     },
@@ -54,7 +54,7 @@ const updateData = async (id, formData) =>{
   console.log(id);
   
   const token = cookies.get("TOKEN");
-  const { data } = await axios.put(`http://localhost:4000/api/users/${id}`, formData, {
+  const { data } = await axios.put(`${API_URL}/api/users/${id}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data', // Necessary for file uploads
       Authorization: `Bearer ${token}`,
