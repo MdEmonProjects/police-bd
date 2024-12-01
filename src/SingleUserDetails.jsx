@@ -16,7 +16,7 @@ function SingleUserDetails() {
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error: {error.message}</div>;
     return (
-        <div className="root-screen-full">
+        <div>
             <div className="px-[10px] pt-[50px] pb-[100px] min-h-screen overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-start"
                 style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
                 {/* Header */}

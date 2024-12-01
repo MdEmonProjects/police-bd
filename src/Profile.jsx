@@ -45,7 +45,7 @@ function Profile() {
 
 
     return (
-        <div className="root-screen-full">
+        <div>
             <div className="px-[10px] pt-[50px] pb-[100px] overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-start"
                 style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
                 {/* Header */}
