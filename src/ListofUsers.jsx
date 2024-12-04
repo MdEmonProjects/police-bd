@@ -22,7 +22,7 @@ function ListOfUsers() {
 
     const designation = watch("designation", "")
     const bloodGroup = watch("blood_group", "")
-    const policeUnit = watch("police_unit", "")
+    const policeUnit = watch("current_place", "")
 
     const filteredData = usersData
         .filter(user => user.name.toLowerCase().includes(nameInput.toLowerCase()))
@@ -31,18 +31,29 @@ function ListOfUsers() {
             !bloodGroup ||
             (user.blood_group && user.blood_group.toLowerCase() === bloodGroup.toLowerCase())
         )
-        .filter(user => !policeUnit || user.police_unit?.toLowerCase().includes(policeUnit.toLowerCase()));
+        .filter(user =>
+            !policeUnit ||
+            [
+                user.police_unit,
+                user.police_first_sub_unit,
+                user.police_second_sub_unit,
+                user.police_third_sub_unit,
+                user.police_first_sub_unit_text,
+                user.police_second_sub_unit_text
+            ].some(field => field?.toLowerCase().includes(policeUnit.toLowerCase()))
+        );
+
 
     return (
         <div className="">
             <div className="px-[10px] pt-[50px] min-h-screen overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-start"
                 style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
                 {/* Header */}
-                <header className="">
+                {/* <header className="">
                     <div className="flex items-center justify-center ">
                         <img src="PCMS_app_logo.png" alt="logo" />
                     </div>
-                </header>
+                </header> */}
 
                 <div className="text-center text-white pt-[80px]">
                     <h1 className="text-[36px] font-inter font-bold uppercase mb-[30px]">BD Police 2013 October Batch</h1>
@@ -95,7 +106,7 @@ function ListOfUsers() {
 
                                 </select>
                             </div>
-                            <div className="relative w-full">
+                            {/* <div className="relative w-full">
 
                                 <select
                                     className="rounded-[10px] bg-[#321a69] w-full h-[44px] border border-[#321a69] text-[#777777] font-normal px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]"
@@ -123,6 +134,22 @@ function ListOfUsers() {
                                     <option value="এমআরটি পুলিশ">এমআরটি পুলিশ</option>
                                     <option value="পুলিশ টেলিকম">পুলিশ টেলিকম</option>
                                 </select>
+                            </div> */}
+
+                            <div className="relative w-full">
+                                <input
+                                    id="current_place"
+                                    className={`peer bg-[#321a69] rounded-[10px] w-full h-[44px] border border-[#321a69] px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]
+                                    }`}
+                                    {...register("current_place")}
+                                />
+                                <label
+                                    htmlFor="current_place"
+                                    className={`absolute top-1/2 left-[10px] -translate-y-1/2 text-[#777777] pointer-events-none transition-all duration-300 peer-focus:top-0 peer-focus:left-[5px] peer-focus:text-[#6967a1] peer-focus:translate-y-[-103%] ${nameInput ? "top-0 left-0 translate-y-[-103%] text-[#6967a1]" : ""
+                                        }`}
+                                >
+                                    Current Place
+                                </label>
                             </div>
                         </div>
                     </form>

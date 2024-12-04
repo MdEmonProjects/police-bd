@@ -49,11 +49,11 @@ function Profile() {
             <div className="px-[10px] pt-[50px] pb-[100px] overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-start"
                 style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
                 {/* Header */}
-                <header className="">
+                {/* <header className="">
                     <div className="flex items-center justify-center ">
                         <img src="PCMS_app_logo.png" alt="logo" />
                     </div>
-                </header>
+                </header> */}
 
                 <div className="text-center text-white pt-[80px]">
                     <h1 className="text-[36px] font-inter font-bold uppercase mb-[30px]">BD Police 2013 October Batch</h1>

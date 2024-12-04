@@ -31,8 +31,14 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                   <Route path="profile" element={<Profile />} />
                 </Route>
-                <Route path="list_of_users" element={<ListOfUsers />} />
-                <Route path="user" element={<SingleUserDetails />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="list_of_users" element={<ListOfUsers />} />
+                </Route>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="user" element={<SingleUserDetails />} />
+                </Route>
+                {/* <Route path="list_of_users" element={<ListOfUsers />} />
+                <Route path="user" element={<SingleUserDetails />} /> */}
                 <Route path="goal" element={<Goal />} />
               </Route>
             </Routes>

@@ -60,11 +60,11 @@ function Login() {
             <div className="px-[10px] pt-[50px] h-screen overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-start"
                 style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
                 {/* Header */}
-                <header className="">
+                {/* <header className="">
                     <div className="flex items-center justify-center ">
                         <img src="PCMS_app_logo.png" alt="logo" />
                     </div>
-                </header>
+                </header> */}
 
                 {/* Main Content */}
                 {
@@ -74,7 +74,7 @@ function Login() {
                                 {/* Mobile No */}
                                 <div className="mt-[36px] relative w-full">
                                     <div className="relative flex">
-                                        <button id="dropdown-phone-button-3" data-dropdown-toggle="dropdown-phone-3" className="z-10 inline-flex shrink-0 items-center rounded-s-lg border border-[#6967a1] bg-[#6967a1] px-4 py-2.5 text-center text-sm font-medium text-[#d3d3d3] hover:bg-[#6967a1]-200 focus:outline-none focus:ring-0 focus:ring-gray-100" type="button">+880<svg className="-me-0.5 ms-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7"></path></svg></button>
+                                        <button id="dropdown-phone-button-3" data-dropdown-toggle="dropdown-phone-3" className="z-10 inline-flex shrink-0 items-center rounded-s-lg border border-[#6967a1] bg-[#6967a1] px-4 py-2.5 text-center text-sm font-medium text-[#d3d3d3] hover:bg-[#6967a1]-200 focus:outline-none focus:ring-0 focus:ring-gray-100" type="button">+88<svg className="-me-0.5 ms-2 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7"></path></svg></button>
                                         <input
                                             id="phone_number"
                                             className={`peer  rounded-r-[10px] w-full h-[44px] border border-gray-300 border-s-0 px-3 focus:outline-none focus:ring-r-2 focus:ring-[#6967a1] ${errors.mobile_no ? "border-red-500" : ""
