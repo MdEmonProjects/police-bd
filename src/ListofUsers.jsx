@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsersData } from "./utils/api";
 import { useForm } from 'react-hook-form';
+import Footer from "./component/Footer";
 
 function ListOfUsers() {
     const {
@@ -20,13 +21,13 @@ function ListOfUsers() {
 
     const nameInput = watch("name", "");
 
-    const designation = watch("designation", "")
+    const phone_number = watch("phone_number", "")
     const bloodGroup = watch("blood_group", "")
     const policeUnit = watch("current_place", "")
 
     const filteredData = usersData
         .filter(user => user.name.toLowerCase().includes(nameInput.toLowerCase()))
-        .filter(user => !designation || user.designation?.toLowerCase().includes(designation.toLowerCase()))
+        .filter(user => !phone_number || user.phone_number?.toLowerCase().includes(phone_number.toLowerCase()))
         .filter(user =>
             !bloodGroup ||
             (user.blood_group && user.blood_group.toLowerCase() === bloodGroup.toLowerCase())
@@ -47,11 +48,11 @@ function ListOfUsers() {
     return (
         <div className="">
             <div className="px-[10px] pt-[50px] min-h-screen overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-start"
-                style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
+                style={{ backgroundImage: "url(bg.jpg)" }}>
                 {/* Header */}
                 {/* <header className="">
                     <div className="flex items-center justify-center ">
-                        <img src="PCMS_app_logo.png" alt="logo" />
+                        <img src="logo.png" alt="logo" />
                     </div>
                 </header> */}
 
@@ -77,15 +78,19 @@ function ListOfUsers() {
 
                             <div className="relative w-full">
 
-                                <select
-                                    className="rounded-[10px] bg-[#321a69] w-full h-[44px]  border border-[#321a69] text-[#777777] font-normal px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]"
-                                    {...register("designation")}
+                                <input
+                                    id="phone_number"
+                                    className={`peer bg-[#321a69] rounded-[10px] w-full h-[44px] border border-[#321a69] px-3 focus:outline-none focus:ring-2 focus:ring-[#6967a1]
+                                    }`}
+                                    {...register("phone_number")}
+                                />
+                                <label
+                                    htmlFor="phone_number"
+                                    className={`absolute top-1/2 left-[10px] -translate-y-1/2 text-[#777777] pointer-events-none transition-all duration-300 peer-focus:top-0 peer-focus:left-[5px] peer-focus:text-[#6967a1] peer-focus:translate-y-[-103%] ${phone_number ? "top-0 left-0 translate-y-[-103%] text-[#6967a1]" : ""
+                                        }`}
                                 >
-                                    <option value="">Select</option>
-                                    <option value="designation1">Designation 1</option>
-                                    <option value="designation2">Designation 2</option>
-                                    <option value="designation3">Designation 3</option>
-                                </select>
+                                    Phone Number
+                                </label>
 
                             </div>
 
@@ -217,9 +222,8 @@ function ListOfUsers() {
                 {/* Footer */}
 
             </div>
-            <footer className="bg-gray-800 text-gray-400 py-4 text-center text-sm fixed bottom-0 w-full">
-                <small>© 2024 Your Website. All rights reserved. Privacy Policy.</small>
-            </footer>
+            <Footer />
+
         </div>
 
     );

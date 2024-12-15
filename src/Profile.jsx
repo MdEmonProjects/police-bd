@@ -5,6 +5,7 @@ import { useUser } from "./context/AuthContext";
 import Cookies from "universal-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleUserData } from "./utils/api";
+import Footer from "./component/Footer";
 
 // import {  useOutletContext } from "react-router-dom";
 const API_URL = import.meta.env.VITE_SERVER_URL;
@@ -47,11 +48,11 @@ function Profile() {
     return (
         <div>
             <div className="px-[10px] pt-[50px] pb-[100px] overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-start"
-                style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
+                style={{ backgroundImage: "url(bg.jpg)" }}>
                 {/* Header */}
                 {/* <header className="">
                     <div className="flex items-center justify-center ">
-                        <img src="PCMS_app_logo.png" alt="logo" />
+                        <img src="logo.png" alt="logo" />
                     </div>
                 </header> */}
 
@@ -85,9 +86,8 @@ function Profile() {
                 {/* Footer */}
 
             </div>
-            <footer className="bg-gray-800 text-gray-400 py-4 text-center text-sm ">
-                <small>© 2024 Your Website. All rights reserved. Privacy Policy.</small>
-            </footer>
+            <Footer/>
+
         </div>
 
     );

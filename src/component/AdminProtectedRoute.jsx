@@ -1,21 +1,21 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { useUser } from "../context/AuthContext";
-import { verifyToken } from "../utils/api";
+import { adminVerifyToken, verifyToken } from "../utils/api";
 import { useState, useEffect } from "react";
 
 const cookies = new Cookies();
 
-const ProtectedRoute = () => {
+const AdminProtectedRoute = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // Loading state
   const { user } = useUser();
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = await cookies.get("TOKEN");
+      const token = await cookies.get("ADMIN_TOKEN");
       if (token) {
         try {
-          const gettRes = await verifyToken(token); // Now `gettRes` should have the response data
+          const gettRes = await adminVerifyToken(token); // Now `gettRes` should have the response data
           console.log(gettRes);  // Log the response data from the API
           setIsAuthenticated(true); // Token valid
         } catch (error) {
@@ -28,7 +28,7 @@ const ProtectedRoute = () => {
         // Allow access if a user context exists
         setIsAuthenticated(true);
       } else {
-       
+        // cookies.remove('ADMIN_TOKEN')
         setIsAuthenticated(false); // No token or user context
       }
     };
@@ -42,7 +42,7 @@ const ProtectedRoute = () => {
   }
 
   // Redirect to login if authentication fails
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login?role=admin" />;
 };
 
-export default ProtectedRoute;
+export default AdminProtectedRoute;

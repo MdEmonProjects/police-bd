@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUsersData } from "./utils/api";
 import Loading from "./component/Loading";
 import { useEffect } from "react";
+import Footer from "./component/Footer";
 
 function Home() {
     // const [memberCount] = useState(12345); // Example member count
@@ -30,12 +31,12 @@ function Home() {
     return (
         <div className="root-screen-full">
             <div className="px-[10px] pt-[50px] h-screen overflow-hidden m-0 bg-cover bg-no-repeat bg-center flex flex-col justify-between"
-                style={{ backgroundImage: "url(bg-registration-form-5.jpg)" }}>
+                style={{ backgroundImage: "url(bg.jpg)" }}>
                 {/* Header */}
                 <div>
                     <header className="mb-[100px]">
                         <div className="flex items-center justify-center ">
-                            <img src="PCMS_app_logo.png" alt="logo" />
+                            <img src="logo.png" alt="logo" />
                         </div>
                     </header>
 
@@ -71,9 +72,7 @@ function Home() {
                 {/* Footer */}
 
             </div>
-            <footer className="bg-gray-800 text-gray-400 py-4 text-center text-sm fixed bottom-0 w-full">
-                <small>© 2024. All rights reserved. Privacy Policy.</small>
-            </footer>
+            <Footer/>
         </div>
 
     );
